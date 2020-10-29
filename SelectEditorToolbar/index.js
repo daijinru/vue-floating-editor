@@ -23,9 +23,8 @@ class Editor {
 
   initEditor () {
     utils.loadStyle('::selection { background: rgb(33, 130, 249); color: #fff }');
-    const EditorCtor = Vue.extend(indexVue);
     if (!this.$instance) {
-      this.$instance = new EditorCtor({
+      this.$instance = new Vue.extend(indexVue)({
         el: document.createElement('div')
       });
     }
