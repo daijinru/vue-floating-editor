@@ -7,13 +7,13 @@ class Editor {
   constructor () {
     this.editorPoi = {}; // 编辑器在页面中的绝对位置
     this.selectionConfig = {}; // getSelection 返回的对象
+    this.container = null;
     this.$instance = null; // 编辑器实例 Vue
 
     this.initEditor();
     this.initButtonsEvent();
 
     document.addEventListener('mousedown', e => {
-      console.info(e);
       if (this.$instance.visible && e.target.ariaLabel !== 'editor-toolbar') {
         this.$instance.visible = false;
         this.$instance.absPoi = {};
@@ -35,16 +35,12 @@ class Editor {
   initButtonsEvent () {
     Array.from(document.getElementsByClassName('v-format-action')).forEach(action => {
       action.addEventListener('click', e => {
-        const { anchorNode, focusNode, anchorOffset, focusOffset } = this.selectionConfig;
+        console.log(e);
+        const { currentRange } = this.selectionConfig;
         const selection = window.getSelection();
-        const range = document.createRange();
-        range.setStart(anchorNode, anchorOffset);
-        range.setEnd(focusNode, focusOffset);
         selection.removeAllRanges();
-        selection.addRange(range);
-        console.log(range);
+        selection.addRange(currentRange);
         const format = e.currentTarget.dataset.format;
-        document.execCommand(format);
 
         // 如果选区文本包含 b 节点，并且当前使用加粗则清除其红色
         if (format === 'bold') {
@@ -53,14 +49,17 @@ class Editor {
           } else {
             document.execCommand('foreColor', false, '#e33e33');
           }
+        } else if (format === 'underline') {
+          document.execCommand(format);
         }
+        this.container.focus();
       });
     });
   }
 
   isRangeContainsBold () {
     const { nodeNames, parentNode } = this.selectionConfig;
-    return nodeNames.includes('b') || parentNode.color === '#e33e33' || parentNode.nodeName === 'B';
+    return nodeNames.includes('b') || parentNode.color === '#e33e33';
   }
 
   // 主要方法，指定监听的元素
@@ -83,10 +82,9 @@ class Editor {
         return;
       }
       // 选中文本以后，浮动显示编辑器
-      this.editorPoi = this.getEditorAbsPoi(node);
       this.selectionConfig = this.getSelectionConfig(selection);
-      this.selectionConfig.container = node;
-
+      this.editorPoi = utils.getRangeAbsPoi(this.selectionConfig.range);
+      this.container = node;
       this.$instance.visible = true;
       this.$instance.absPoi = this.editorPoi;
       console.log(selection);
@@ -100,33 +98,26 @@ class Editor {
     });
   }
 
-  getEditorAbsPoi (node) {
-    const absPoi = utils.getNodeAbsPoi(node);
-    return {
-      top: absPoi.top + node.offsetHeight + 5,
-      left: absPoi.left,
-    };
-  }
-
   getSelectionConfig (selection) {
-    // 仅允许每次选中一段，因此需要传入的是 0
     const range = selection.getRangeAt(0);
     let parentNode = range.commonAncestorContainer;
     if (parentNode.nodeType === 3) {
       parentNode = parentNode.parentElement;
     }
-    const fragment = range.cloneContents();
     return {
       range,
-      selectionText: selection.toString(),
+      currentRange: this.createCurrentRange(selection),
       parentNode,
-      nodeNames: utils.findNodesName(fragment.childNodes),
-      fragment,
-      anchorNode: selection.anchorNode,
-      focusNode: selection.focusNode,
-      anchorOffset: selection.anchorOffset,
-      focusOffset: selection.focusOffset,
+      nodeNames: utils.getRangeNodesName(range.cloneContents().childNodes),
     };
+  }
+
+  createCurrentRange (selection) {
+    const { anchorNode, anchorOffset, focusNode, focusOffset } = selection;
+    const range = document.createRange();
+    range.setStart(anchorNode, anchorOffset);
+    range.setEnd(focusNode, focusOffset);
+    return range.cloneRange();
   }
 }
 

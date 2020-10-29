@@ -4,13 +4,15 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run dev",
+    "dev": "esrun run index.vue --file vue"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "element-ui": "^2.14.0",
+    "esrun-cli": "^1.0.4-alpha.1",
     "lodash": "^4.17.20"
   }
 }
