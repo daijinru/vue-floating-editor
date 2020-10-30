@@ -64,7 +64,10 @@ class Editor {
   restoreSelection () {
     const { currentRange } = this.selectionConfig;
     const selection = window.getSelection();
-    selection.removeAllRanges();
+    console.log(selection, selection.rangeCount);
+    if (selection.rangeCount > 0) {
+      selection.removeAllRanges();
+    }
     selection.addRange(currentRange);
   }
 
