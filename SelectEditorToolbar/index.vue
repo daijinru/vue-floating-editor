@@ -11,7 +11,11 @@
           data-format="bold"
           aria-label="editor-toolbar"
         >
-          强调
+          <img
+            data-format="bold"
+            aria-label="editor-toolbar"
+            class="icon"
+            src="./icons/emphasis.png">
         </div>
       </Tooltip>
       <Tooltip content="数据加密" placement="bottom" offset="20">
@@ -20,7 +24,11 @@
           data-format="underline"
           aria-label="editor-toolbar"
         >
-          脱敏
+          <img
+            data-format="underline"
+            aria-label="editor-toolbar"
+            class="icon"
+            src="./icons/desensitization.png">
         </div>
       </Tooltip>
     </Card>
@@ -70,8 +78,6 @@ export default {
   }
 
   .format-btn {
-    // width: 22px;
-    // height: 22px;
     margin: 4px;
 
     display: inline-block;
@@ -80,10 +86,11 @@ export default {
     &:hover {
       background-color: #a6a9ad;
     }
-  }
 
-  .icon {
-    width: 100%;
+    img.icon {
+      display: inline-block;
+      width: 32px;
+    }
   }
 }
 </style>

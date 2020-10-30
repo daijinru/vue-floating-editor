@@ -11,7 +11,7 @@
 
 <script>
 import Editor from './SelectEditorToolbar';
-// import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/index.css';
 const editor = new Editor();
 export default {
   data: () => ({}),

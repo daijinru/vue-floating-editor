@@ -24,7 +24,7 @@ class Editor {
   initEditor () {
     utils.loadStyle('::selection { background: rgb(33, 130, 249); color: #fff }');
     if (!this.$instance) {
-      this.$instance = new Vue.extend(indexVue)({
+      this.$instance = new (Vue.extend(indexVue))({
         el: document.createElement('div')
       });
     }
@@ -34,24 +34,24 @@ class Editor {
   initButtonsEvent () {
     Array.from(document.getElementsByClassName('v-format-action')).forEach(action => {
       action.addEventListener('click', e => {
-        console.log(e);
-        const { currentRange } = this.selectionConfig;
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(currentRange);
-        const format = e.currentTarget.dataset.format;
-
-        // 如果选区文本包含 b 节点，并且当前使用加粗则清除其红色
-        if (format === 'bold') {
-          if (this.isRangeContainsBold()) {
-            document.execCommand('foreColor', false, '#000');
-          } else {
-            document.execCommand('foreColor', false, '#e33e33');
-          }
-        } else if (format === 'underline') {
-          document.execCommand(format);
+        this.restoreSelection();
+        const format = e.target.dataset.format;
+        switch (format) {
+          case 'bold':
+            if (this.isRangeContainsBold()) {
+              document.execCommand('foreColor', false, '#000');
+            } else {
+              document.execCommand('foreColor', false, '#e33e33');
+            }
+            break;
+          case 'underline':
+            document.execCommand(format);
+            break;
+          default:
+            document.execCommand(format);
         }
-        this.container.focus();
+        // save current selection
+        this.selectionConfig.currentRange = window.getSelection().getRangeAt(0);
       });
     });
   }
@@ -59,6 +59,13 @@ class Editor {
   isRangeContainsBold () {
     const { nodeNames, parentNode } = this.selectionConfig;
     return nodeNames.includes('b') || parentNode.color === '#e33e33';
+  }
+
+  restoreSelection () {
+    const { currentRange } = this.selectionConfig;
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(currentRange);
   }
 
   // 主要方法，指定监听的元素
