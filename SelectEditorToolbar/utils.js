@@ -16,20 +16,18 @@ function loadStyle (innerText) {
   document.getElementsByTagName('head')[0].appendChild(style);
 }
 
-// 返回选区子节点包含的元素标签
-function getRangeNodesName (childNodes) {
+// 返回选区整棵节点树（除 #text）包含的元素标签
+function getRangeNodesName (node) {
   const result = new Set();
-  Array.from(childNodes).forEach(node => {
-    // if (node.nodeType === 3) {
-    //   node = node.parentNode;
-    // }
-    result.add(
-      String.prototype.toLocaleLowerCase.call(node.nodeName)
-    );
-    if (result.childNodes) {
-      getRangeNodesName(result.childNodes);
+  result.add(node.nodeName);
+  recursiveChildNodes(node.parentNode);
+  function recursiveChildNodes (node) {
+    if (node.ariaLabel === 'select-editor-toolbar') {
+      return;
     }
-  });
+    result.add(node.nodeName);
+    recursiveChildNodes(node.parentNode);
+  }
   return Array.from(result);
 }
 

@@ -36,39 +36,44 @@ class Editor {
       action.addEventListener('click', e => {
         this.restoreSelection();
         const format = e.target.dataset.format;
+        const isRangeContainsBold = () => {
+          const { startNodeNames, endNodeNames } = this.selectionConfig;
+          const isStartIncluded = startNodeNames.includes('B') || startNodeNames.includes('FONT');
+          const isEndIncluded = endNodeNames.includes('B') || startNodeNames.includes('FONT');
+          if (isStartIncluded && !isEndIncluded) return true;
+          if (!isStartIncluded && isEndIncluded) return false;
+          if (isStartIncluded && isEndIncluded) return true;
+          if (!isStartIncluded && !isEndIncluded) return false;
+        }
+        console.log(isRangeContainsBold());
         switch (format) {
           case 'bold':
-            if (this.isRangeContainsBold()) {
+            document.execCommand('bold');
+            if (isRangeContainsBold()) {
               document.execCommand('foreColor', false, '#000');
             } else {
               document.execCommand('foreColor', false, '#e33e33');
             }
             break;
           case 'underline':
-            document.execCommand(format);
+            document.execCommand('underline');
             break;
           default:
             document.execCommand(format);
         }
         // save current selection
-        this.selectionConfig.currentRange = window.getSelection().getRangeAt(0);
+        this.selectionConfig.range = this.createCurrentRange(window.getSelection());
       });
     });
   }
 
-  isRangeContainsBold () {
-    const { nodeNames, parentNode } = this.selectionConfig;
-    return nodeNames.includes('b') || parentNode.color === '#e33e33';
-  }
-
   restoreSelection () {
-    const { currentRange } = this.selectionConfig;
+    const { range } = this.selectionConfig;
     const selection = window.getSelection();
-    console.log(selection, selection.rangeCount);
     if (selection.rangeCount > 0) {
       selection.removeAllRanges();
     }
-    selection.addRange(currentRange);
+    selection.addRange(range);
   }
 
   // 主要方法，指定监听的元素
@@ -79,6 +84,7 @@ class Editor {
     if (!node) {
       throw new ReferenceError(`不存在 id 是 ${nodeName} 的 HTML 元素`);
     }
+    node.ariaLabel = 'select-editor-toolbar'; // 用于遍历节点树返回 nodeNames 数组的边界
     this.initSelectNodeConfig(node);
   }
 
@@ -114,10 +120,12 @@ class Editor {
       parentNode = parentNode.parentElement;
     }
     return {
-      range,
-      currentRange: this.createCurrentRange(selection),
       parentNode,
-      nodeNames: utils.getRangeNodesName(range.cloneContents().childNodes),
+      range: this.createCurrentRange(selection),
+      endNodeNames: utils.getRangeNodesName(range.endContainer), // 选区末尾节点包含的节点树
+      startNodeNames: utils.getRangeNodesName(range.startContainer), // 选区开始节点包含的节点树
+      fragment: range.cloneContents(),
+      string: range.toString(),
     };
   }
 
