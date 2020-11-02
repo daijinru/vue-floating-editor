@@ -3,7 +3,6 @@ import indexVue from './index.vue';
 import utils from './utils';
 
 class Editor {
-  // 设定值
   constructor () {
     this.editorPoi = {}; // 编辑器在页面中的绝对位置
     this.selectionConfig = {}; // getSelection 返回的对象
@@ -36,6 +35,9 @@ class Editor {
       action.addEventListener('click', e => {
         this.restoreSelection();
         const format = e.target.dataset.format;
+        // 在 OSX 系统下，无论是 WPS MSC 或者 HTML 都是以选区尾巴作为判断是否添加清除格式的标准
+        // 当选区头部和尾巴都不包含格式时，则添加格式
+        // 当选区头部和尾巴都包含或者不包含，而中间包含格式时，以中间是否包含为准
         const isRangeContainsBold = () => {
           const { startNodeNames, endNodeNames } = this.selectionConfig;
           const isStartIncluded = startNodeNames.includes('B') || startNodeNames.includes('FONT');
@@ -45,7 +47,6 @@ class Editor {
           if (isStartIncluded && isEndIncluded) return true;
           if (!isStartIncluded && !isEndIncluded) return false;
         }
-        console.log(isRangeContainsBold());
         switch (format) {
           case 'bold':
             document.execCommand('bold');
@@ -61,10 +62,12 @@ class Editor {
           default:
             document.execCommand(format);
         }
-        // save current selection
-        this.selectionConfig.range = this.createCurrentRange(window.getSelection());
       });
     });
+  }
+
+  saveSelection () {
+    this.selectionConfig.range = this.createCurrentRange(window.getSelection());
   }
 
   restoreSelection () {
