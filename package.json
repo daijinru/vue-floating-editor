@@ -1,12 +1,15 @@
 {
-  "name": "editor",
-  "version": "1.0.0",
+  "name": "selection-text-editor",
+  "version": "0.1.0",
   "description": "选区文本编辑器",
   "main": "src/index.js",
   "scripts": {
     "start": "npm run dev",
     "dev": "esrun run index.vue --file vue"
   },
+  "files": [
+    "src"
+  ],
   "keywords": [],
   "author": "",
   "license": "MIT",
