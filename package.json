@@ -1,18 +1,17 @@
 {
   "name": "editor",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "选区文本编辑器",
+  "main": "src/index.js",
   "scripts": {
     "start": "npm run dev",
     "dev": "esrun run index.vue --file vue"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
+  "license": "MIT",
+  "devDependencies": {
     "element-ui": "^2.14.0",
-    "esrun-cli": "^1.0.4-alpha.3",
-    "lodash": "^4.17.20"
+    "esrun-cli": "^1.0.4-alpha.3"
   }
 }

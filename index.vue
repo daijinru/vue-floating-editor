@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Editor from './SelectEditorToolbar';
+import Editor from './src';
 import 'element-ui/lib/theme-chalk/index.css';
 const editor = new Editor();
 export default {
