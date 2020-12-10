@@ -3,18 +3,21 @@ import indexVue from './index.vue';
 import utils from './utils';
 
 class Editor {
-  constructor (settings) {
+  constructor (settings = {}) {
     this.editorPoi = {}; // 编辑器在页面中的绝对位置
     this.selectionConfig = {}; // getSelection 返回的对象
     this.container = null;
     this.$instance = null; // 编辑器实例 Vue
-
-    this.settings = settings || {
+    this.settings = {
       'bold': {
         change: '#e33e33',
         origin: '#606266'
+      },
+      'underline': {
+        show: true,
       }
     };
+    Object.assign(this.settings, settings);
 
     this.initEditor();
     this.initButtonsEvent();
@@ -34,6 +37,7 @@ class Editor {
         el: document.createElement('div')
       });
     }
+    this.$instance.settings = this.settings;
     document.body.appendChild(this.$instance.$el);
   }
 

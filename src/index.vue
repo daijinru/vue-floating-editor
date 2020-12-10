@@ -18,7 +18,7 @@
             src="./icons/emphasis.png">
         </div>
       </Tooltip>
-      <Tooltip content="数据加密" placement="bottom">
+      <Tooltip content="数据加密" placement="bottom" v-if="settings.underline.show">
         <div
           class="format-btn v-format-action"
           data-format="underline"
@@ -67,6 +67,11 @@ export default {
         top: 0,
       },
       visible: false,
+      settings: {
+        underline: {
+          show: true,
+        },
+      }
     };
   },
   computed: {
