@@ -5,7 +5,7 @@
     :style="poi"
   >
     <Card>
-      <Tooltip content="红色强调" placement="bottom" offset="20">
+      <Tooltip content="红色强调" placement="bottom">
         <div
           class="format-btn v-format-action"
           data-format="bold"
@@ -18,7 +18,7 @@
             src="./icons/emphasis.png">
         </div>
       </Tooltip>
-      <Tooltip content="数据加密" placement="bottom" offset="20">
+      <Tooltip content="数据加密" placement="bottom">
         <div
           class="format-btn v-format-action"
           data-format="underline"
@@ -29,6 +29,19 @@
             aria-label="editor-toolbar"
             class="icon"
             src="./icons/desensitization.png">
+        </div>
+      </Tooltip>
+      <Tooltip content="清除格式" placement="bottom">
+        <div
+          class="format-btn v-format-action"
+          data-format="removeFormat"
+          aria-label="editor-toolbar"
+        >
+          <img
+            data-format="removeFormat"
+            aria-label="editor-toolbar"
+            class="icon"
+            src="./icons/removeFormat.png">
         </div>
       </Tooltip>
     </Card>
@@ -69,7 +82,7 @@ export default {
 
 <style lang="scss" scoped>
 #selectEditorToolbar {
-  z-index: 99;
+  z-index: 10000;
   position: fixed;
   height: auto;
 

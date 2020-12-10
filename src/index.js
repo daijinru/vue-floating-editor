@@ -47,6 +47,7 @@ class Editor {
           if (isStartIncluded && isEndIncluded) return true;
           if (!isStartIncluded && !isEndIncluded) return false;
         }
+        const { startNodeNames, endNodeNames } = this.selectionConfig;
         switch (format) {
           case 'bold':
             document.execCommand('bold');
@@ -58,6 +59,9 @@ class Editor {
             break;
           case 'underline':
             document.execCommand('underline');
+            break;
+          case 'removeFormat':
+            document.execCommand('removeFormat');
             break;
           default:
             document.execCommand(format);
@@ -113,8 +117,6 @@ class Editor {
       this.container = node;
       this.$instance.visible = true;
       this.$instance.absPoi = this.editorPoi;
-      console.log(selection);
-      console.log(this.selectionConfig);
     });
     // 阻止文本换行
     node.addEventListener('keydown', e => {
