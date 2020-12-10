@@ -92,9 +92,6 @@ class Editor {
   }
 
   fromSelects (nodeName) {
-    if (!Array.isArray(nodeName)) {
-      throw new TypeError('nodeName 参数必须是数组');
-    }
     const nodes = document.getElementsByClassName(nodeName);
     nodes.forEach(node => {
       node.ariaLabel = 'select-editor-toolbar';
