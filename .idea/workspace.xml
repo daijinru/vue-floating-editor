@@ -20,9 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eda72a8e-9bd4-45e8-b3d7-00a0185d6814" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +40,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -52,7 +57,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606023861708</updated>
-      <workItem from="1606023862838" duration="1025000" />
+      <workItem from="1606023862838" duration="1587000" />
+      <workItem from="1606026703414" duration="2246000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1606023961711</created>
@@ -77,12 +83,17 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
     <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="472" y="-914" key="RollbackChangesDialog" timestamp="1606031455224">
+      <screen x="-268" y="-1080" width="1920" height="1080" />
+    </state>
+    <state x="472" y="-914" key="RollbackChangesDialog/0.0.1680.1050/-268.-1080.1920.1080@-268.-1080.1920.1080" timestamp="1606031455224" />
     <state x="291" y="-803" key="Vcs.Push.Dialog.v2" timestamp="1606023970486">
       <screen x="-268" y="-1080" width="1920" height="1080" />
     </state>

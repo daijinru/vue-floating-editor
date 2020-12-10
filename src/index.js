@@ -91,6 +91,17 @@ class Editor {
     this.initSelectNodeConfig(node);
   }
 
+  formSelects (nodeName) {
+    if (!Array.isArray(nodeName)) {
+      throw new TypeError('nodeName 参数必须是数组');
+    }
+    const nodes = document.getElementsByClassName(nodeName);
+    nodes.forEach(node => {
+      node.ariaLabel = 'select-editor-toolbar';
+      this.initSelectNodeConfig(node);
+    })
+  }
+
   initSelectNodeConfig (node) {
     node.addEventListener('mouseup', () => {
       const selection = window.getSelection();
