@@ -3,11 +3,18 @@ import indexVue from './index.vue';
 import utils from './utils';
 
 class Editor {
-  constructor () {
+  constructor (settings) {
     this.editorPoi = {}; // 编辑器在页面中的绝对位置
     this.selectionConfig = {}; // getSelection 返回的对象
     this.container = null;
     this.$instance = null; // 编辑器实例 Vue
+
+    this.settings = settings || {
+      'bold': {
+        change: '#e33e33',
+        origin: '#606266'
+      }
+    };
 
     this.initEditor();
     this.initButtonsEvent();
@@ -47,14 +54,13 @@ class Editor {
           if (isStartIncluded && isEndIncluded) return true;
           if (!isStartIncluded && !isEndIncluded) return false;
         }
-        const { startNodeNames, endNodeNames } = this.selectionConfig;
         switch (format) {
           case 'bold':
             document.execCommand('bold');
             if (isRangeContainsBold()) {
-              document.execCommand('foreColor', false, '#000');
+              document.execCommand('foreColor', false, this.settings.bold.origin);
             } else {
-              document.execCommand('foreColor', false, '#e33e33');
+              document.execCommand('foreColor', false, this.settings.bold.change);
             }
             break;
           case 'underline':
