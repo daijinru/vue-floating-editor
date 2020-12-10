@@ -91,7 +91,7 @@ class Editor {
     this.initSelectNodeConfig(node);
   }
 
-  formSelects (nodeName) {
+  fromSelects (nodeName) {
     if (!Array.isArray(nodeName)) {
       throw new TypeError('nodeName 参数必须是数组');
     }
