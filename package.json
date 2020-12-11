@@ -1,6 +1,6 @@
 {
   "name": "selection-text-editor",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "选区文本编辑器",
   "main": "src/index.js",
   "scripts": {

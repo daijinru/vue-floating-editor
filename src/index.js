@@ -8,6 +8,8 @@ class Editor {
     this.selectionConfig = {}; // getSelection 返回的对象
     this.container = null;
     this.$instance = null; // 编辑器实例 Vue
+    this.mouseStart = 0;
+    this.mouseEnd = 0;
     this.settings = {
       'bold': {
         change: '#e33e33',
@@ -114,7 +116,11 @@ class Editor {
   }
 
   initSelectNodeConfig (node) {
-    node.addEventListener('mouseup', () => {
+    node.addEventListener('mousedown', (e) => {
+      this.mouseStart = e.clientX;
+    });
+    node.addEventListener('mouseup', (e) => {
+      this.mouseEnd = e.clientX;
       const selection = window.getSelection();
       // range.collapsed 是内置的判断起点与终点是否在同一个位置
       // 如果是同一个位置那么判断为没有选中
@@ -153,10 +159,17 @@ class Editor {
   }
 
   createCurrentRange (selection) {
+    // TODO 单行文字情况，通过鼠标点击事件对象的 clientX 判断选区的方向
+    const toRight = this.mouseStart < this.mouseEnd;
     const { anchorNode, anchorOffset, focusNode, focusOffset } = selection;
     const range = document.createRange();
-    range.setStart(anchorNode, anchorOffset);
-    range.setEnd(focusNode, focusOffset);
+    if (toRight) {
+      range.setStart(anchorNode, anchorOffset);
+      range.setEnd(focusNode, focusOffset);
+    } else {
+      range.setStart(focusNode, focusOffset);
+      range.setEnd(anchorNode, anchorOffset);
+    }
     return range.cloneRange();
   }
 }
