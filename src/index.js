@@ -11,11 +11,11 @@ class Editor {
     this.mouseStart = 0;
     this.mouseEnd = 0;
     this.settings = {
-      'bold': {
+      bold: {
         change: '#e33e33',
         origin: '#606266'
       },
-      'underline': {
+      underline: {
         show: true,
       }
     };
@@ -38,9 +38,16 @@ class Editor {
       this.$instance = new (Vue.extend(indexVue))({
         el: document.createElement('div')
       });
+      this.$instance.settings = this.settings;
+      document.body.appendChild(this.$instance.$el);
     }
-    this.$instance.settings = this.settings;
-    document.body.appendChild(this.$instance.$el);
+  }
+
+  setting (settings) {
+    if (!this.$instance) {
+      throw new ReferenceError('请先初始化选择器');
+    }
+    this.$instance.settings = { ...this.settings, ...settings };
   }
 
   initButtonsEvent () {
@@ -78,6 +85,7 @@ class Editor {
           default:
             document.execCommand(format);
         }
+        this.saveSelection();
       });
     });
   }
@@ -160,7 +168,7 @@ class Editor {
 
   createCurrentRange (selection) {
     // TODO 单行文字情况，通过鼠标点击事件对象的 clientX 判断选区的方向
-    const toRight = this.mouseStart < this.mouseEnd;
+    const toRight = this.mouseStart <= this.mouseEnd;
     const { anchorNode, anchorOffset, focusNode, focusOffset } = selection;
     const range = document.createRange();
     if (toRight) {

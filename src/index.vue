@@ -1,6 +1,6 @@
 <template>
   <div
-    id="selectEditorToolbar"
+    class="selectEditorToolbar"
     :class="{ 'hidden': !visible }"
     :style="poi"
   >
@@ -52,13 +52,11 @@
 import {
   Card,
   Tooltip,
-  Button,
 } from 'element-ui';
 export default {
   components: {
     Card,
     Tooltip,
-    // Button,
   },
   data () {
     return {
@@ -86,7 +84,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#selectEditorToolbar {
+.selectEditorToolbar {
   z-index: 10000;
   position: fixed;
   height: auto;
@@ -114,7 +112,7 @@ export default {
 </style>
 
 <style>
-#selectEditorToolbar .el-card__body {
+.selectEditorToolbar .el-card__body {
   padding: 4px;
 }
 </style>
